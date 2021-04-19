@@ -31,9 +31,74 @@ GameWindow::GameWindow(QWidget *parent) :
     pushButtons.push_back(ui->pushButton_28);
     pushButtons.push_back(ui->pushButton_29);
     pushButtons.push_back(ui->pushButton_30);
+    nextTurn();
+}
+
+void GameWindow::nextTurn() {
+    switch (gameState) {
+        case GameState::BLUE_TEAM:
+            ui->label->setText("BLUE TEAM TURN");
+            break;
+        case GameState::RED_TEAM:
+            ui->label->setText("RED TEAM TURN");
+            break;
+        case GameState::BLUE_CAP:
+            ui->label->setText("BLUE CAPTAIN TURN");
+            break;
+        case GameState::RED_CAP:
+            ui->label->setText("RED CAPTAIN TURN");
+            break;
+    }
+
+    for (int i = 0; i < 25; i++) {
+        if (gameState == GameState::BLUE_CAP || gameState == GameState::RED_CAP) {
+            switch (cards[i]) {
+                case CardState::BLUE:
+                    pushButtons[i]->setStyleSheet("background-color: rgb(0, 0, 255);");
+                    break;
+                case CardState::RED:
+                    pushButtons[i]->setStyleSheet("background-color: rgb(255, 0, 0);");
+                    break;
+                case CardState::NEUTRAL:
+                    pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
+                    break;
+                case CardState::DEATH:
+                    pushButtons[i]->setStyleSheet("background-color: rgb(100, 100, 100);");
+                    break;
+                case CardState::OPENED:
+                    pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
+                    break;
+            }
+        } else if (gameState == GameState::BLUE_TEAM || gameState == GameState::RED_TEAM) {
+            if (cards[i] == CardState::OPENED) {
+                pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
+            } else {
+                pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
+            }
+        }
+    }
 }
 
 GameWindow::~GameWindow()
 {
     delete ui;
+}
+
+void GameWindow::on_pushButton_11_clicked()
+{
+    switch (gameState) {
+        case GameState::BLUE_TEAM:
+            gameState = GameState::RED_CAP;
+            break;
+        case GameState::RED_TEAM:
+            gameState = GameState::BLUE_CAP;
+            break;
+        case GameState::BLUE_CAP:
+            gameState = GameState::BLUE_TEAM;
+            break;
+        case GameState::RED_CAP:
+            gameState = GameState::RED_TEAM;
+            break;
+    }
+    nextTurn();
 }

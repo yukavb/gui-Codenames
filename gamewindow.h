@@ -5,6 +5,21 @@
 #include <QPushButton>
 #include <vector>
 
+enum class CardState {
+    BLUE,
+    RED,
+    NEUTRAL,
+    DEATH,
+    OPENED
+};
+
+enum class GameState {
+    BLUE_TEAM,
+    RED_TEAM,
+    BLUE_CAP,
+    RED_CAP
+};
+
 namespace Ui {
 class GameWindow;
 }
@@ -17,9 +32,20 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
+private slots:
+    void on_pushButton_11_clicked();
+
 private:
+    void nextTurn();
+
     Ui::GameWindow *ui;
-    std::vector <QPushButton*> pushButtons;
+    GameState gameState = GameState::BLUE_CAP;
+    std::vector<QPushButton*> pushButtons;
+    std::vector<CardState> cards = {CardState::NEUTRAL, CardState::BLUE,  CardState::RED,     CardState::RED,     CardState::BLUE,
+                                    CardState::NEUTRAL, CardState::DEATH, CardState::RED,     CardState::BLUE,    CardState::RED,
+                                    CardState::RED,     CardState::BLUE,  CardState::BLUE,    CardState::NEUTRAL, CardState::NEUTRAL,
+                                    CardState::NEUTRAL, CardState::BLUE,  CardState::NEUTRAL, CardState::NEUTRAL, CardState::RED,
+                                    CardState::NEUTRAL, CardState::BLUE,  CardState::RED,     CardState::BLUE,    CardState::NEUTRAL};
 };
 
 #endif // GAMEWINDOW_H
