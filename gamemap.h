@@ -4,6 +4,7 @@
 
 class GameMap
 {
+
 public:
     GameMap();
 };
