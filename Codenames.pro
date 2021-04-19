@@ -16,15 +16,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    card.cpp \
+    gamemap.cpp \
     gamewindow.cpp \
     loginwindow.cpp \
     main.cpp \
+    session.cpp \
     settingswindow.cpp
 
 HEADERS += \
+    card.h \
+    gamemap.h \
     gamewindow.h \
     loginwindow.h \
-    settingswindow.h
+    session.h \
+    settingswindow.h \
+    utils.h
 
 FORMS += \
     gamewindow.ui \
