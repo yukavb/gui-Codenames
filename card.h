@@ -8,11 +8,16 @@ class Card
 {
 public:
     Card(std::string word, QColor color);
+    std::string getString();
+    QColor getColor();
+    bool isPicked();
+    void pick();
+    void changeColor(QColor);
 
 private:
     std::string word;
     QColor color;
-    bool isPicked;
+    bool picked;
 };
 
 #endif // CARD_H
