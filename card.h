@@ -9,7 +9,7 @@ class Card
 public:
     Card();
     Card(std::string word, CardState cardState);
-    std::string getString() { return word; };
+    std::string getWord() { return word; };
     CardState getState() { return cardState; };
     bool isPicked();
     void pick();

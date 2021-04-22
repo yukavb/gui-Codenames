@@ -20,9 +20,12 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
+signals:
+    void gameEnd();
+
 private slots:
     void cardChoosed();
-    void capApplied();
+    void on_apply_clicked();
 
 private:
     void nextTurn(GameMap);

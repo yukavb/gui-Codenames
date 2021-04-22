@@ -26,7 +26,8 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #00008b;</string>
+    <string notr="true">background-color: #00008b;
+color: #FFFFFF;</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="red">
@@ -39,7 +40,8 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #8b0000;</string>
+    <string notr="true">background-color: #8b0000;
+color: #FFFFFF;</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
@@ -522,6 +524,12 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255 255, 255);</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>9</number>
    </property>
    <property name="value">
     <number>1</number>

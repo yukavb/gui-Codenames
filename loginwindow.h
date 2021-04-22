@@ -22,6 +22,8 @@ private slots:
 
     void on_settings_button_clicked();
 
+    void newGame();
+
 private:
     Ui::LoginWindow *ui;
     GameWindow *gameWindow;

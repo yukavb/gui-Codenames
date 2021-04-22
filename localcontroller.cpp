@@ -10,9 +10,19 @@ GameMap LocalController::initRequest() {
     return *gameMap;
 }
 
+GameMap LocalController::request() {
+    return *localGame->gameMap;
+}
+
 GameMap LocalController::request(int id)
 {
     GameMap* gameMap = localGame->turn(id);
+    return *gameMap;
+}
+
+GameMap LocalController::request(std::string word, int count)
+{
+    GameMap* gameMap = localGame->turn(word, count);
     return *gameMap;
 }
 

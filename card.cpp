@@ -8,3 +8,11 @@ Card::Card()
 
 Card::Card(std::string word, CardState cardState) : word(word), cardState(cardState), picked(false)
 {}
+
+void Card::pick() {
+    picked = true;
+}
+
+bool Card::isPicked() {
+    return picked;
+}

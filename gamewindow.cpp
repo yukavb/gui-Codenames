@@ -33,12 +33,12 @@ GameWindow::GameWindow(QWidget *parent) :
     pushButtons.push_back(ui->pushButton_28);
     pushButtons.push_back(ui->pushButton_29);
     pushButtons.push_back(ui->pushButton_30);
+
     for (auto i: pushButtons) {
         connect(i, SIGNAL(clicked()), this, SLOT(cardChoosed()));
     }
     controller = new LocalController();
     nextTurn(controller->initRequest());
-
 }
 
 void GameWindow::nextTurn(GameMap gameMap) {
@@ -68,8 +68,9 @@ void GameWindow::nextTurn(GameMap gameMap) {
     }
 
     for (int i = 0; i < 25; i++) {
-        pushButtons[i]->setText(QString::fromStdString(gameMap.getCard(i).getString()));
-        if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP) {
+        pushButtons[i]->setText(QString::fromStdString(gameMap.getCard(i).getWord()));
+
+        if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP || gameMap.getCard(i).isPicked()) {
             switch (gameMap.getCard(i).getState()) {
                 case CardState::BLUE:
                     pushButtons[i]->setStyleSheet("background-color: rgb(0, 0, 255);");
@@ -87,12 +88,8 @@ void GameWindow::nextTurn(GameMap gameMap) {
                     pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
                     break;
             }
-        } else if (gameMap.getState() == GameState::BLUE_TEAM || gameMap.getState() == GameState::RED_TEAM) {
-            if (gameMap.getCard(i).getState() == CardState::OPENED) {
-                pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
-            } else {
-                pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
-            }
+        } else {
+            pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
         }
     }
 }
@@ -105,15 +102,51 @@ GameWindow::~GameWindow()
 void GameWindow::cardChoosed()
 {
     QPushButton *btn = qobject_cast<QPushButton *>(sender());
+
     for (size_t i = 0; i < pushButtons.size(); i++) {
         if (btn == pushButtons[i]) {
-            nextTurn(controller->request(i));
+            GameMap gameMap = controller->request();
+            GameState gameState = gameMap.getState();
+            CardState cardState = gameMap.getCard(i).getState();
 
+            if (cardState == CardState::DEATH &&
+                    (gameState == GameState::RED_TEAM || gameState == GameState::BLUE_TEAM)) {
+                close();
+                emit gameEnd();
+                return;
+            }
+            bool picked = gameMap.getCard(i).isPicked();
+
+            if (!picked && gameState == GameState::RED_TEAM) {
+                ui->red->append(QString::fromStdString(gameMap.getCard(i).getWord()));
+            } else if (!picked && gameState == GameState::BLUE_TEAM) {
+                ui->blue->append(QString::fromStdString(gameMap.getCard(i).getWord()));
+            }
+            nextTurn(controller->request(i));
         }
     }
 }
 
-void GameWindow::capApplied()
+void GameWindow::on_apply_clicked()
 {
+    std::string word = ui->association->text().toStdString();
+    int count = ui->count->value();
+    GameMap gameMap = controller->request(word, count);
+    ui->association->clear();
+    ui->count->setValue(1);
 
+    switch (gameMap.getState()) {
+        case GameState::RED_TEAM:
+            ui->red->append(QString(word.c_str()) + " " + QString(std::to_string(count).c_str()));
+            break;
+
+        case GameState::BLUE_TEAM:
+            ui->blue->append(QString(word.c_str()) + " " + QString(std::to_string(count).c_str()));
+            break;
+
+        case GameState::RED_CAP:
+        case GameState::BLUE_CAP:
+            break;
+    }
+    nextTurn(gameMap);
 }

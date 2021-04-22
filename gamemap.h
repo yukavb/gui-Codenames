@@ -7,11 +7,10 @@
 
 class GameMap
 {
-
 public:
+    friend class LocalGame;
     GameMap();
     Card getCard(int index) { return cards[index]; };
-    void pickCard(int index);
     GameState getState() { return gameState; };
     GameState nextTurn();
 

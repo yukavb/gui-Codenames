@@ -12,7 +12,9 @@ class LocalController : public IController
 public:
     LocalController();
     GameMap initRequest() override;
+    GameMap request() override;
     GameMap request(int) override;
+    GameMap request(std::string, int) override;
     Session getSession() override;
 };
 
