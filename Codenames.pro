@@ -19,15 +19,19 @@ SOURCES += \
     card.cpp \
     gamemap.cpp \
     gamewindow.cpp \
+    localcontroller.cpp \
+    localgame.cpp \
     loginwindow.cpp \
     main.cpp \
-    session.cpp \
     settingswindow.cpp
 
 HEADERS += \
     card.h \
     gamemap.h \
     gamewindow.h \
+    icontroller.h \
+    localcontroller.h \
+    localgame.h \
     loginwindow.h \
     session.h \
     settingswindow.h \

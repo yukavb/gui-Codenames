@@ -7,11 +7,12 @@
 
 class GameMap
 {
+
 public:
     GameMap();
-    Card getCard(int index);
+    Card getCard(int index) { return cards[index]; };
     void pickCard(int index);
-    GameState getState();
+    GameState getState() { return gameState; };
     GameState nextTurn();
 
 private:
