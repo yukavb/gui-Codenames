@@ -23,7 +23,6 @@ SOURCES += \
     localgame.cpp \
     loginwindow.cpp \
     main.cpp \
-    session.cpp \
     settingswindow.cpp
 
 HEADERS += \
