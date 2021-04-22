@@ -2,21 +2,22 @@
 #define CARD_H
 #include "string"
 #include <QColor>
-
+#include "utils.h"
 
 class Card
 {
 public:
-    Card(std::string word, QColor color);
-    std::string getString();
-    QColor getColor();
+    Card();
+    Card(std::string word, CardState cardState);
+    std::string getString() { return word; };
+    CardState getState() { return cardState; };
     bool isPicked();
     void pick();
-    void changeColor(QColor);
+    void changeState(GameState);
 
 private:
     std::string word;
-    QColor color;
+    CardState cardState;
     bool picked;
 };
 

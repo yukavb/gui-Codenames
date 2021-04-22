@@ -1,5 +1,7 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
+#include "qdebug.h"
+
 
 GameWindow::GameWindow(QWidget *parent) :
     QWidget(parent),
@@ -31,28 +33,44 @@ GameWindow::GameWindow(QWidget *parent) :
     pushButtons.push_back(ui->pushButton_28);
     pushButtons.push_back(ui->pushButton_29);
     pushButtons.push_back(ui->pushButton_30);
-    nextTurn();
+    for (auto i: pushButtons) {
+        connect(i, SIGNAL(clicked()), this, SLOT(cardChoosed()));
+    }
+    controller = new LocalController();
+    nextTurn(controller->initRequest());
+
 }
 
-void GameWindow::nextTurn() {
-    switch (gameState) {
+void GameWindow::nextTurn(GameMap gameMap) {
+    if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP) {
+        ui->association->setReadOnly(false);
+        ui->count->setReadOnly(false);
+        ui->apply->show();
+    } else {
+        ui->association->setReadOnly(true);
+        ui->count->setReadOnly(true);
+        ui->apply->hide();
+    }
+
+    switch (gameMap.getState()) {
         case GameState::BLUE_TEAM:
-            ui->label->setText("BLUE TEAM TURN");
+            ui->label->setText("ХОД КОМАНДЫ СИНИХ");
             break;
         case GameState::RED_TEAM:
-            ui->label->setText("RED TEAM TURN");
+            ui->label->setText("ХОД КОМАНДЫ КРАСНЫХ");
             break;
         case GameState::BLUE_CAP:
-            ui->label->setText("BLUE CAPTAIN TURN");
+            ui->label->setText("ХОД КАПИТАНА СИНИХ");
             break;
         case GameState::RED_CAP:
-            ui->label->setText("RED CAPTAIN TURN");
+            ui->label->setText("ХОД КАПИТАНА КРАСНЫХ");
             break;
     }
 
     for (int i = 0; i < 25; i++) {
-        if (gameState == GameState::BLUE_CAP || gameState == GameState::RED_CAP) {
-            switch (cards[i]) {
+        pushButtons[i]->setText(QString::fromStdString(gameMap.getCard(i).getString()));
+        if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP) {
+            switch (gameMap.getCard(i).getState()) {
                 case CardState::BLUE:
                     pushButtons[i]->setStyleSheet("background-color: rgb(0, 0, 255);");
                     break;
@@ -69,8 +87,8 @@ void GameWindow::nextTurn() {
                     pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
                     break;
             }
-        } else if (gameState == GameState::BLUE_TEAM || gameState == GameState::RED_TEAM) {
-            if (cards[i] == CardState::OPENED) {
+        } else if (gameMap.getState() == GameState::BLUE_TEAM || gameMap.getState() == GameState::RED_TEAM) {
+            if (gameMap.getCard(i).getState() == CardState::OPENED) {
                 pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
             } else {
                 pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
@@ -84,21 +102,18 @@ GameWindow::~GameWindow()
     delete ui;
 }
 
-void GameWindow::on_pushButton_11_clicked()
+void GameWindow::cardChoosed()
 {
-    switch (gameState) {
-        case GameState::BLUE_TEAM:
-            gameState = GameState::RED_CAP;
-            break;
-        case GameState::RED_TEAM:
-            gameState = GameState::BLUE_CAP;
-            break;
-        case GameState::BLUE_CAP:
-            gameState = GameState::BLUE_TEAM;
-            break;
-        case GameState::RED_CAP:
-            gameState = GameState::RED_TEAM;
-            break;
+    QPushButton *btn = qobject_cast<QPushButton *>(sender());
+    for (size_t i = 0; i < pushButtons.size(); i++) {
+        if (btn == pushButtons[i]) {
+            nextTurn(controller->request(i));
+
+        }
     }
-    nextTurn();
+}
+
+void GameWindow::capApplied()
+{
+
 }

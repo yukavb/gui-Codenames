@@ -1,6 +1,10 @@
 #include "card.h"
 
-Card::Card(std::string word, QColor color) : word(word), color(color)
+Card::Card()
 {
-    picked = false;
+    word = "123";
+    cardState = CardState::NEUTRAL;
 }
+
+Card::Card(std::string word, CardState cardState) : word(word), cardState(cardState), picked(false)
+{}

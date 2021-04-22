@@ -5,7 +5,8 @@
 #include <QPushButton>
 #include <vector>
 #include "utils.h"
-
+#include "localcontroller.h"
+#include "gamemap.h"
 
 namespace Ui {
 class GameWindow;
@@ -20,19 +21,14 @@ public:
     ~GameWindow();
 
 private slots:
-    void on_pushButton_11_clicked();
+    void cardChoosed();
+    void capApplied();
 
 private:
-    void nextTurn();
-
+    void nextTurn(GameMap);
+    IController* controller;
     Ui::GameWindow *ui;
-    GameState gameState = GameState::BLUE_CAP;
     std::vector<QPushButton*> pushButtons;
-    std::vector<CardState> cards = {CardState::NEUTRAL, CardState::BLUE,  CardState::RED,     CardState::RED,     CardState::BLUE,
-                                    CardState::NEUTRAL, CardState::DEATH, CardState::RED,     CardState::BLUE,    CardState::RED,
-                                    CardState::RED,     CardState::BLUE,  CardState::BLUE,    CardState::NEUTRAL, CardState::NEUTRAL,
-                                    CardState::NEUTRAL, CardState::BLUE,  CardState::NEUTRAL, CardState::NEUTRAL, CardState::RED,
-                                    CardState::NEUTRAL, CardState::BLUE,  CardState::RED,     CardState::BLUE,    CardState::NEUTRAL};
 };
 
 #endif // GAMEWINDOW_H
