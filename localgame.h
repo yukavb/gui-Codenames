@@ -5,9 +5,11 @@
 
 class LocalGame
 {
-    GameMap gameMap;
 public:
+    GameMap* gameMap;
     LocalGame();
+    GameMap* turn(int);
+    GameMap* init();
 };
 
 #endif // LOCALGAME_H

@@ -5,8 +5,8 @@
 class Session
 {
 public:
-    Session();
-    unsigned int getID();
+    Session(int id = 0) : sessionID(id) {}
+    unsigned int getID() { return sessionID; };
 
 private:
     unsigned int sessionID;
