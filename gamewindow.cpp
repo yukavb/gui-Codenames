@@ -87,7 +87,7 @@ void GameWindow::nextTurn(const GameMap* gameMap) {
                     break;
             }
 
-            if ((gameMap->getState() == GameState::BLUE_CAP || gameMap->getState() == GameState::RED_CAP) && gameMap->getCard(i).isPicked()) {
+            if ((gameMap->getState() == GameState::BLUE_CAP || gameMap->getState() == GameState::RED_CAP || gameMap->getCard(i).getState() == CardState::NEUTRAL) && gameMap->getCard(i).isPicked()) {
                 pushButtons[i]->setStyleSheet("background-color: #228C22;");
             }
         } else {
