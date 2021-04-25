@@ -5,25 +5,25 @@ LocalController::LocalController() {
     localGame = new LocalGame();
 }
 
-GameMap LocalController::initRequest() {
+const GameMap* LocalController::initRequest() {
     GameMap* gameMap = localGame->init();
-    return *gameMap;
+    return gameMap;
 }
 
-GameMap LocalController::request() {
-    return *localGame->gameMap;
+const GameMap* LocalController::request() {
+    return localGame->gameMap;
 }
 
-GameMap LocalController::request(int id)
+const GameMap* LocalController::request(int id)
 {
     GameMap* gameMap = localGame->turn(id);
-    return *gameMap;
+    return gameMap;
 }
 
-GameMap LocalController::request(std::string word, int count)
+const GameMap* LocalController::request(std::string word, int count)
 {
     GameMap* gameMap = localGame->turn(word, count);
-    return *gameMap;
+    return gameMap;
 }
 
 Session LocalController::getSession()

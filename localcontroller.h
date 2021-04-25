@@ -11,10 +11,10 @@ class LocalController : public IController
 
 public:
     LocalController();
-    GameMap initRequest() override;
-    GameMap request() override;
-    GameMap request(int) override;
-    GameMap request(std::string, int) override;
+    const GameMap* initRequest() override;
+    const GameMap* request() override;
+    const GameMap* request(int) override;
+    const GameMap* request(std::string, int) override;
     Session getSession() override;
 };
 

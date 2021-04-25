@@ -28,7 +28,7 @@ private slots:
     void on_apply_clicked();
 
 private:
-    void nextTurn(GameMap);
+    void nextTurn(const GameMap*);
     IController* controller;
     Ui::GameWindow *ui;
     std::vector<QPushButton*> pushButtons;

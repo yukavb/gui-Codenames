@@ -2,6 +2,7 @@
 #include "ui_gamewindow.h"
 #include "qdebug.h"
 
+const char LINE[] = "------------------------";
 
 GameWindow::GameWindow(QWidget *parent) :
     QWidget(parent),
@@ -34,15 +35,15 @@ GameWindow::GameWindow(QWidget *parent) :
     pushButtons.push_back(ui->pushButton_29);
     pushButtons.push_back(ui->pushButton_30);
 
-    for (auto i: pushButtons) {
-        connect(i, SIGNAL(clicked()), this, SLOT(cardChoosed()));
+    for (const auto &button: pushButtons) {
+        connect(button, SIGNAL(clicked()), this, SLOT(cardChoosed()));
     }
     controller = new LocalController();
     nextTurn(controller->initRequest());
 }
 
-void GameWindow::nextTurn(GameMap gameMap) {
-    if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP) {
+void GameWindow::nextTurn(const GameMap* gameMap) {
+    if (gameMap->getState() == GameState::BLUE_CAP || gameMap->getState() == GameState::RED_CAP) {
         ui->association->setReadOnly(false);
         ui->count->setReadOnly(false);
         ui->apply->show();
@@ -52,7 +53,7 @@ void GameWindow::nextTurn(GameMap gameMap) {
         ui->apply->hide();
     }
 
-    switch (gameMap.getState()) {
+    switch (gameMap->getState()) {
         case GameState::BLUE_TEAM:
             ui->label->setText("ХОД КОМАНДЫ СИНИХ");
             break;
@@ -68,10 +69,10 @@ void GameWindow::nextTurn(GameMap gameMap) {
     }
 
     for (int i = 0; i < 25; i++) {
-        pushButtons[i]->setText(QString::fromStdString(gameMap.getCard(i).getWord()));
+        pushButtons[i]->setText(QString::fromStdString(gameMap->getCard(i).getWord()));
 
-        if (gameMap.getState() == GameState::BLUE_CAP || gameMap.getState() == GameState::RED_CAP || gameMap.getCard(i).isPicked()) {
-            switch (gameMap.getCard(i).getState()) {
+        if (gameMap->getState() == GameState::BLUE_CAP || gameMap->getState() == GameState::RED_CAP || gameMap->getCard(i).isPicked()) {
+            switch (gameMap->getCard(i).getState()) {
                 case CardState::BLUE:
                     pushButtons[i]->setStyleSheet("background-color: rgb(0, 0, 255);");
                     break;
@@ -84,9 +85,10 @@ void GameWindow::nextTurn(GameMap gameMap) {
                 case CardState::DEATH:
                     pushButtons[i]->setStyleSheet("background-color: rgb(100, 100, 100);");
                     break;
-                case CardState::OPENED:
-                    pushButtons[i]->setStyleSheet("background-color: rgb(200, 200, 200);");
-                    break;
+            }
+
+            if ((gameMap->getState() == GameState::BLUE_CAP || gameMap->getState() == GameState::RED_CAP) && gameMap->getCard(i).isPicked()) {
+                pushButtons[i]->setStyleSheet("background-color: #228C22;");
             }
         } else {
             pushButtons[i]->setStyleSheet("background-color: rgb(255, 255, 255);");
@@ -105,9 +107,9 @@ void GameWindow::cardChoosed()
 
     for (size_t i = 0; i < pushButtons.size(); i++) {
         if (btn == pushButtons[i]) {
-            GameMap gameMap = controller->request();
-            GameState gameState = gameMap.getState();
-            CardState cardState = gameMap.getCard(i).getState();
+            const GameMap* gameMap = controller->request();
+            GameState gameState = gameMap->getState();
+            CardState cardState = gameMap->getCard(i).getState();
 
             if (cardState == CardState::DEATH &&
                     (gameState == GameState::RED_TEAM || gameState == GameState::BLUE_TEAM)) {
@@ -115,14 +117,27 @@ void GameWindow::cardChoosed()
                 emit gameEnd();
                 return;
             }
-            bool picked = gameMap.getCard(i).isPicked();
+            bool picked = gameMap->getCard(i).isPicked();
 
             if (!picked && gameState == GameState::RED_TEAM) {
-                ui->red->append(QString::fromStdString(gameMap.getCard(i).getWord()));
+                ui->red->append(QString::fromStdString(gameMap->getCard(i).getWord()));
             } else if (!picked && gameState == GameState::BLUE_TEAM) {
-                ui->blue->append(QString::fromStdString(gameMap.getCard(i).getWord()));
+                ui->blue->append(QString::fromStdString(gameMap->getCard(i).getWord()));
             }
-            nextTurn(controller->request(i));
+            gameMap = controller->request(i);
+            nextTurn(gameMap);
+            gameState = gameMap->getState();
+
+            if (gameState == GameState::BLUE_CAP || gameState == GameState::RED_CAP) {
+                ui->count->setValue(1);
+                ui->association->clear();
+            }
+
+            if (gameState == GameState::BLUE_CAP) {
+                ui->red->append(QString(LINE) + "\n");
+            } else if (gameState == GameState::RED_CAP) {
+                ui->blue->append(QString(LINE) + "\n");
+            }
         }
     }
 }
@@ -131,17 +146,17 @@ void GameWindow::on_apply_clicked()
 {
     std::string word = ui->association->text().toStdString();
     int count = ui->count->value();
-    GameMap gameMap = controller->request(word, count);
-    ui->association->clear();
-    ui->count->setValue(1);
+    const GameMap* gameMap = controller->request(word, count);
 
-    switch (gameMap.getState()) {
+    switch (gameMap->getState()) {
         case GameState::RED_TEAM:
             ui->red->append(QString(word.c_str()) + " " + QString(std::to_string(count).c_str()));
+            ui->red->append(LINE);
             break;
 
         case GameState::BLUE_TEAM:
             ui->blue->append(QString(word.c_str()) + " " + QString(std::to_string(count).c_str()));
+            ui->blue->append(LINE);
             break;
 
         case GameState::RED_CAP:

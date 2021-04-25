@@ -10,9 +10,9 @@ class GameMap
 public:
     friend class LocalGame;
     GameMap();
-    Card getCard(int index) { return cards[index]; };
-    GameState getState() { return gameState; };
-    GameState nextTurn();
+    Card getCard(int index) const { return cards[index]; };
+    GameState getState() const { return gameState; };
+    GameState nextTurn() const;
 
 private:
     std::vector<Card> cards;

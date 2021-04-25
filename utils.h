@@ -5,8 +5,7 @@ enum class CardState {
     BLUE,
     RED,
     NEUTRAL,
-    DEATH,
-    OPENED
+    DEATH
 };
 
 enum class GameState {

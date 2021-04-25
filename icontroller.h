@@ -7,10 +7,10 @@
 class IController
 {
 public:
-    virtual GameMap initRequest() = 0;
-    virtual GameMap request() = 0;
-    virtual GameMap request(int) = 0;
-    virtual GameMap request(std::string, int) = 0;
+    virtual const GameMap* initRequest() = 0;
+    virtual const GameMap* request() = 0;
+    virtual const GameMap* request(int) = 0;
+    virtual const GameMap* request(std::string, int) = 0;
     virtual Session getSession() = 0;
 };
 
