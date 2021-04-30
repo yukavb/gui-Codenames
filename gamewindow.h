@@ -31,6 +31,7 @@ private slots:
 private:
     void redraw(const GameMap*);
     void redrawTeamGameMap(const GameMap*);
+    void redrawCaptainGameMap(const GameMap*);
     void redrawGameMap(const GameMap*);
     IController* controller;
     Ui::GameWindow *ui;

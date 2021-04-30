@@ -101,12 +101,7 @@ void GameWindow::redrawTeamGameMap(const GameMap* gameMap) {
     }
 }
 
-void GameWindow::redrawGameMap(const GameMap* gameMap) {
-    if (gameMap->isTeamTurn()) {
-        redrawTeamGameMap(gameMap);
-        return;
-    }
-
+void GameWindow::redrawCaptainGameMap(const GameMap* gameMap) {
     for (int i = 0; i < 25; i++) {
         pushButtons[i]->setText(QString::fromStdString(gameMap->getCard(i).getWord()));
 
@@ -130,6 +125,14 @@ void GameWindow::redrawGameMap(const GameMap* gameMap) {
             }
         }
     }
+}
+
+void GameWindow::redrawGameMap(const GameMap* gameMap) {
+    if (gameMap->isTeamTurn()) {
+        redrawTeamGameMap(gameMap);
+        return;
+    }
+    redrawCaptainGameMap(gameMap);
 }
 
 GameWindow::~GameWindow()
@@ -159,13 +162,19 @@ void GameWindow::cardChoosed()
                 }
             }
             gameMap = controller->request(i);
+            gameState = gameMap->getState();
+
+            if (gameState == GameState::BLUE_CAP) {
+                ui->red->append(QString(LINE) + "\n");
+            } else if (gameState == GameState::RED_CAP) {
+                ui->blue->append(QString(LINE) + "\n");
+            }
 
             if (gameMap->isGameEnded() != EndState::NOT_END) {
                 redraw(gameMap);
                 gameEnd();
                 return;
             }
-            gameState = gameMap->getState();
             ui->count->setValue(gameMap->getCountWordsOnTurn());
 
             if (gameMap->getCountWordsOnTurn() == 0) {
@@ -176,11 +185,6 @@ void GameWindow::cardChoosed()
                 redraw(gameMap);
             }
 
-            if (gameState == GameState::BLUE_CAP) {
-                ui->red->append(QString(LINE) + "\n");
-            } else if (gameState == GameState::RED_CAP) {
-                ui->blue->append(QString(LINE) + "\n");
-            }
         }
     }
 }
@@ -226,6 +230,9 @@ void GameWindow::gameEnd() {
     }
     ui->apply->setText("На старт");
     ui->apply->show();
+    ui->association->setReadOnly(true);
+    ui->count->setReadOnly(true);
+    redrawCaptainGameMap(controller->request());
     EndState endState = controller->request()->isGameEnded();
 
     if (endState == EndState::RED_WINS) {

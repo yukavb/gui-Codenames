@@ -24,6 +24,12 @@ GameMap* LocalGame::turn(int ID)
     } else if (card.getState() == CardState::DEATH) {
         (gameState == GameState::BLUE_TEAM ? gameMap->redCards : gameMap->blueCards) = 0;
 
+        if (gameState == GameState::BLUE_TEAM) {
+            gameMap->gameState = GameState::RED_CAP;
+        } else if (gameState == GameState::RED_TEAM) {
+            gameMap->gameState = GameState::BLUE_CAP;
+        }
+        return gameMap;
     }
 
     if (gameState == GameState::RED_TEAM) {
