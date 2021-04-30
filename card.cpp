@@ -13,6 +13,6 @@ void Card::pick() {
     picked = true;
 }
 
-bool Card::isPicked() {
+bool Card::isPicked() const {
     return picked;
 }

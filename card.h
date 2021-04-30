@@ -9,9 +9,9 @@ class Card
 public:
     Card();
     Card(std::string word, CardState cardState);
-    std::string getWord() { return word; };
-    CardState getState() { return cardState; };
-    bool isPicked();
+    std::string getWord() const { return word; };
+    CardState getState() const { return cardState; };
+    bool isPicked() const;
     void pick();
     void changeState(GameState);
 

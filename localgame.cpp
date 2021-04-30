@@ -8,31 +8,49 @@ LocalGame::LocalGame()
 
 GameMap* LocalGame::turn(int ID)
 {
-    if (gameMap->cards[ID].isPicked()) {
+    if (gameMap->cards[ID].isPicked() || gameMap->isCaptainTurn()
+            || gameMap->isGameEnded() != EndState::NOT_END) {
         return gameMap;
     }
-    count--;
+    gameMap->count--;
+    Card &card = gameMap->cards[ID];
+    GameState gameState = gameMap->getState();
+    card.pick();
 
-    switch (gameMap->getState()) {
-        case GameState::RED_TEAM:
-            if (!count) gameMap->gameState = GameState::BLUE_CAP;
-            gameMap->cards[ID].pick();
-            break;
+    if (card.getState() == CardState::RED) {
+        gameMap->redCards--;
+    } else if (card.getState() == CardState::BLUE) {
+        gameMap->blueCards--;
+    } else if (card.getState() == CardState::DEATH) {
+        (gameState == GameState::BLUE_TEAM ? gameMap->redCards : gameMap->blueCards) = 0;
 
-        case GameState::BLUE_TEAM:
-            if (!count) gameMap->gameState = GameState::RED_CAP;
-            gameMap->cards[ID].pick();
-            break;
+    }
 
-        case GameState::RED_CAP:
-        case GameState::BLUE_CAP:
-            break;
+    if (gameState == GameState::RED_TEAM) {
+        if (card.getState() != CardState::RED) {
+            gameMap->count = 0;
+        }
+
+        if (!gameMap->count) {
+            gameMap->gameState = GameState::BLUE_CAP;
+        }
+    } else if (gameState == GameState::BLUE_TEAM) {
+        if (card.getState() != CardState::BLUE) {
+            gameMap->count = 0;
+        }
+
+        if (!gameMap->count) {
+            gameMap->gameState = GameState::RED_CAP;
+        }
     }
     return gameMap;
 }
 
 GameMap* LocalGame::turn(std::string word, int count) {
-    this->count = count;
+    if (gameMap->isGameEnded() != EndState::NOT_END) {
+        return gameMap;
+    }
+    gameMap->count = count;
 
     switch (gameMap->getState()) {
         case GameState::RED_CAP:
@@ -47,11 +65,10 @@ GameMap* LocalGame::turn(std::string word, int count) {
         case GameState::BLUE_TEAM:
             break;
     }
-
     return gameMap;
 }
 
-GameMap *LocalGame::init()
+GameMap* LocalGame::init()
 {
     return gameMap;
 }

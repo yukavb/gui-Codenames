@@ -8,7 +8,7 @@ LoginWindow::LoginWindow(QWidget *parent)
     ui->setupUi(this);
     gameWindow = new GameWindow;
     settingsWindow = new SettingsWindow;
-    connect(gameWindow, &GameWindow::gameEnd, this, &LoginWindow::newGame);
+    connect(gameWindow, &GameWindow::backToLogin, this, &LoginWindow::newGame);
 }
 
 LoginWindow::~LoginWindow()

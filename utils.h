@@ -5,7 +5,7 @@ enum class CardState {
     BLUE,
     RED,
     NEUTRAL,
-    DEATH
+    DEATH,
 };
 
 enum class GameState {
@@ -13,6 +13,12 @@ enum class GameState {
     RED_TEAM,
     BLUE_CAP,
     RED_CAP
+};
+
+enum class EndState {
+    RED_WINS,
+    BLUE_WINS,
+    NOT_END
 };
 
 #endif // UTILS_H

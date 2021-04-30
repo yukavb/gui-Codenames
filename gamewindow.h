@@ -21,14 +21,17 @@ public:
     ~GameWindow();
 
 signals:
-    void gameEnd();
+    void backToLogin();
 
 private slots:
     void cardChoosed();
+    void gameEnd();
     void on_apply_clicked();
 
 private:
-    void nextTurn(const GameMap*);
+    void redraw(const GameMap*);
+    void redrawTeamGameMap(const GameMap*);
+    void redrawGameMap(const GameMap*);
     IController* controller;
     Ui::GameWindow *ui;
     std::vector<QPushButton*> pushButtons;

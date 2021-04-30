@@ -17,3 +17,12 @@ GameMap::GameMap() : gameState(GameState::RED_CAP)
         cards.emplace_back(words[i], states[i]);
     }
 }
+
+EndState GameMap::isGameEnded() const {
+    if (redCards == 0) {
+        return EndState::RED_WINS;
+    } else if (blueCards == 0) {
+        return EndState::BLUE_WINS;
+    }
+    return EndState::NOT_END;
+}
