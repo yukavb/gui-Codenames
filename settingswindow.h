@@ -22,6 +22,11 @@ public:
     explicit SettingsWindow(QWidget *parent = nullptr);
     ~SettingsWindow();
 
+private slots:
+    void on_network_clicked();
+
+    void on_local_clicked();
+
 private:
     Ui::SettingsWindow *ui;
 };
