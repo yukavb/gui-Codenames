@@ -28,6 +28,8 @@ private slots:
     void gameEnd();
     void on_apply_clicked();
 
+    void on_concede_clicked();
+
 private:
     void redraw(const GameMap*);
     void redrawTeamGameMap(const GameMap*);

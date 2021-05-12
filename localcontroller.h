@@ -16,6 +16,7 @@ public:
     const GameMap* request(int) override;
     const GameMap* request(std::string, int) override;
     Session getSession() override;
+    const GameMap *concede();
 };
 
 #endif // LOCALCONTROLLER_H

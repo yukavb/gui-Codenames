@@ -19,6 +19,11 @@ const GameMap* LocalController::request(int id) {
     return gameMap;
 }
 
+const GameMap* LocalController::concede() {
+    GameMap* gameMap = localGame->concede();
+    return gameMap;
+}
+
 const GameMap* LocalController::request(std::string word, int count) {
     GameMap* gameMap = localGame->turn(word, count);
     return gameMap;

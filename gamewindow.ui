@@ -551,6 +551,22 @@ color: #FFFFFF;</string>
     <string>Подтвердить</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="concede">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>550</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>Сдаться</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

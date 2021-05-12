@@ -13,6 +13,7 @@ public:
     GameMap* turn(int);
     GameMap* turn(std::string, int);
     GameMap* nextTurn();
+    GameMap *concede();
 };
 
 #endif // LOCALGAME_H
