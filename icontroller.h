@@ -7,6 +7,7 @@
 class IController
 {
 public:
+    virtual const GameMap* concede() = 0;
     virtual const GameMap* initRequest() = 0;
     virtual const GameMap* request() = 0;
     virtual const GameMap* request(int) = 0;

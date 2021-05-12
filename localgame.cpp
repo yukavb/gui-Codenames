@@ -78,3 +78,10 @@ GameMap* LocalGame::init()
 {
     return gameMap;
 }
+
+GameMap* LocalGame::concede()
+{
+    GameState gameState = gameMap->getState();
+    ((gameState == GameState::BLUE_TEAM || gameState == GameState::BLUE_CAP) ? gameMap->redCards : gameMap->blueCards) = 0;
+    return gameMap;
+}

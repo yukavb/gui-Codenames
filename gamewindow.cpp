@@ -241,3 +241,10 @@ void GameWindow::gameEnd() {
         ui->label->setText("СИНИЕ ПОБЕДИЛИ!");
     }
 }
+
+void GameWindow::on_concede_clicked()
+{
+    const GameMap* gameMap = controller->concede();
+    redraw(gameMap);
+    gameEnd();
+}
