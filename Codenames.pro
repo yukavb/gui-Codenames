@@ -23,7 +23,20 @@ SOURCES += \
     localgame.cpp \
     loginwindow.cpp \
     main.cpp \
-    settingswindow.cpp
+    settingswindow.cpp \
+    src/card.cpp \
+    src/gamemap.cpp \
+    src/gamewindow.cpp \
+    src/localcontroller.cpp \
+    src/localgame.cpp \
+    src/loginwindow.cpp \
+    src/main.cpp \
+    src/settingswindow.cpp \
+    src/structures/card.cpp \
+    src/structures/gamemap.cpp \
+    src/ui/gamewindow.cpp \
+    src/ui/loginwindow.cpp \
+    src/ui/settingswindow.cpp
 
 HEADERS += \
     card.h \
@@ -35,12 +48,34 @@ HEADERS += \
     loginwindow.h \
     session.h \
     settingswindow.h \
+    src/card.h \
+    src/gamemap.h \
+    src/gamewindow.h \
+    src/icontroller.h \
+    src/localcontroller.h \
+    src/localgame.h \
+    src/loginwindow.h \
+    src/session.h \
+    src/settingswindow.h \
+    src/structures/card.h \
+    src/structures/gamemap.h \
+    src/structures/session.h \
+    src/ui/gamewindow.h \
+    src/ui/loginwindow.h \
+    src/ui/settingswindow.h \
+    src/utils.h \
     utils.h
 
 FORMS += \
     gamewindow.ui \
     loginwindow.ui \
-    settingswindow.ui
+    settingswindow.ui \
+    src/gamewindow.ui \
+    src/loginwindow.ui \
+    src/settingswindow.ui \
+    src/ui/gamewindow.ui \
+    src/ui/loginwindow.ui \
+    src/ui/settingswindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
