@@ -2,7 +2,7 @@
 #define CARD_H
 #include "string"
 #include <QColor>
-#include "utils.h"
+#include "src/utils.h"
 
 class Card
 {

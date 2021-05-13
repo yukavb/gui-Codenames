@@ -2,8 +2,8 @@
 #define LOGINWINDOW_H
 
 #include <QMainWindow>
-#include <gamewindow.h>
-#include <settingswindow.h>
+#include <src/ui/gamewindow.h>
+#include <src/ui/settingswindow.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWindow; }

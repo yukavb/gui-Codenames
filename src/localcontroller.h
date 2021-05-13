@@ -1,8 +1,8 @@
 #ifndef LOCALCONTROLLER_H
 #define LOCALCONTROLLER_H
 
-#include <icontroller.h>
-#include "localgame.h"
+#include "icontroller.h"
+#include "src/localgame.h"
 
 class LocalController : public IController
 {

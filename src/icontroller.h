@@ -1,8 +1,8 @@
 #ifndef ICONTROLLER_H
 #define ICONTROLLER_H
 
-#include <gamemap.h>
-#include <session.h>
+#include <src/structures/gamemap.h>
+#include <src/structures/session.h>
 
 class IController
 {

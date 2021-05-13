@@ -2,8 +2,8 @@
 #define GAMEMAP_H
 
 #include "vector"
-#include "card.h"
-#include "utils.h"
+#include "src/structures/card.h"
+#include "src/utils.h"
 
 class GameMap
 {

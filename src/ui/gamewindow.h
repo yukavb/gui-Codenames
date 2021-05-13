@@ -4,9 +4,9 @@
 #include <QWidget>
 #include <QPushButton>
 #include <vector>
-#include "utils.h"
-#include "localcontroller.h"
-#include "gamemap.h"
+#include "src/utils.h"
+#include "src/localcontroller.h"
+#include "src/structures/gamemap.h"
 
 namespace Ui {
 class GameWindow;

@@ -1,7 +1,7 @@
 #ifndef LOCALGAME_H
 #define LOCALGAME_H
 
-#include <gamemap.h>
+#include <src/structures/gamemap.h>
 
 class LocalGame
 {
