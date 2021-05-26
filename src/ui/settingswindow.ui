@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../dict.qrc">
+    <normaloff>:/resources/icon.png</normaloff>:/resources/icon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(0, 0, 31);</string>
   </property>
@@ -130,7 +134,7 @@
          <string/>
         </property>
         <property name="text">
-         <string/>
+         <string>127.0.0.1</string>
         </property>
        </widget>
       </item>
@@ -159,7 +163,7 @@
          <string/>
         </property>
         <property name="text">
-         <string/>
+         <string>0</string>
         </property>
        </widget>
       </item>
@@ -184,6 +188,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../dict.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -2,10 +2,6 @@
 #include <QFile>
 #include <QRandomGenerator>
 
-int randomForRandomShuffle(int i) {
-    return QRandomGenerator::global()->generate() % i;
-}
-
 GameMap::GameMap() : gameState(GameState::RED_CAP)
 {
     using namespace std;
@@ -31,7 +27,7 @@ GameMap::GameMap() : gameState(GameState::RED_CAP)
                                  CardState::RED,     CardState::BLUE,  CardState::BLUE,    CardState::NEUTRAL, CardState::NEUTRAL,
                                  CardState::NEUTRAL, CardState::BLUE,  CardState::NEUTRAL, CardState::NEUTRAL, CardState::RED,
                                  CardState::NEUTRAL, CardState::BLUE,  CardState::RED,     CardState::BLUE,    CardState::NEUTRAL};
-    random_shuffle(states.begin(), states.end(), randomForRandomShuffle);
+    random_shuffle(states.begin(), states.end(), [](int i) {return QRandomGenerator::global()->generate() % i;});
 
     for (int i = 0; i < 25; i++) {
         cards.emplace_back(words[i], states[i]);
